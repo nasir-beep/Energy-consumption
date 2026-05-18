@@ -8,16 +8,16 @@ feature_names = joblib.load("feature_names.pkl")
 
 st.title("Energy Consumption Prediction App")
 
-# User inputs
+# User input fields
 inputs = {}
 
 for feature in feature_names:
     inputs[feature] = st.number_input(feature)
 
-# Convert to dataframe
+# Create dataframe
 input_data = pd.DataFrame([inputs])
 
-# Match exact feature order
+# Match feature order
 input_data = input_data[feature_names]
 
 # Predict
