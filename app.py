@@ -2,14 +2,14 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# PAGE CONFIG
+# Page configuration
 st.set_page_config(
     page_title="Energy AI",
     page_icon="⚡",
     layout="wide"
 )
 
-# LOAD MODEL
+# Load Model and features
 model = joblib.load("energy_model.pkl")
 feature_names = joblib.load("feature_names.pkl")
 
@@ -21,7 +21,7 @@ except:
     encoder_exists = False
 
 
-# CUSTOM CSS
+# Custom CSS
 st.markdown("""
 <style>
 
@@ -73,8 +73,7 @@ h1 {
 </style>
 """, unsafe_allow_html=True)
 
-
-# HERO SECTION
+# Hero section
 st.markdown("Energy Consumption Platform")
 
 st.markdown(
@@ -86,37 +85,126 @@ st.markdown(
 
 st.divider()
 
-
-# SIDEBAR INPUTS
+# Sidebar inputs
 st.sidebar.header("Energy Inputs")
 
-inputs = {}
+temperature = st.sidebar.number_input(
+    "Temperature",
+    min_value=0.0,
+    value=25.0
+)
 
-for feature in feature_names:
-    inputs[feature] = st.sidebar.number_input(
-        feature,
-        value=0.0
-    )
+humidity = st.sidebar.number_input(
+    "Humidity",
+    min_value=0.0,
+    value=50.0
+)
 
+square_footage = st.sidebar.number_input(
+    "SquareFootage",
+    min_value=0.0,
+    value=1000.0
+)
 
-# MAIN LAYOUT
+occupancy = st.sidebar.number_input(
+    "Occupancy",
+    min_value=0.0,
+    value=5.0
+)
+
+renewable = st.sidebar.number_input(
+    "RenewableEnergy",
+    min_value=0.0,
+    value=10.0
+)
+
+# Categorical inputs
+hvac = st.sidebar.selectbox(
+    "HVACUsage",
+    ["Off", "On"]
+)
+
+lighting = st.sidebar.selectbox(
+    "LightingUsage",
+    ["Low", "Medium", "High"]
+)
+
+day = st.sidebar.selectbox(
+    "DayOfWeek",
+    [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+    ]
+)
+
+holiday = st.sidebar.selectbox(
+    "Holiday",
+    ["No", "Yes"]
+)
+
+# Manual enoding
+hvac_map = {
+    "Off": 0,
+    "On": 1
+}
+
+lighting_map = {
+    "Low": 0,
+    "Medium": 1,
+    "High": 2
+}
+
+day_map = {
+    "Monday": 0,
+    "Tuesday": 1,
+    "Wednesday": 2,
+    "Thursday": 3,
+    "Friday": 4,
+    "Saturday": 5,
+    "Sunday": 6
+}
+
+holiday_map = {
+    "No": 0,
+    "Yes": 1
+}
+
+# Create input dataframe
+input_df = pd.DataFrame({
+    "Temperature": [temperature],
+    "Humidity": [humidity],
+    "SquareFootage": [square_footage],
+    "Occupancy": [occupancy],
+    "HVACUsage": [hvac_map[hvac]],
+    "LightingUsage": [lighting_map[lighting]],
+    "RenewableEnergy": [renewable],
+    "DayOfWeek": [day_map[day]],
+    "Holiday": [holiday_map[holiday]]
+})
+
+# Main layout
 left, right = st.columns([1,1])
 
-# LEFT PANEL
+# Left panel
 with left:
 
     st.subheader("Building Information")
-
-    input_df = pd.DataFrame([inputs])
 
     st.dataframe(
         input_df,
         use_container_width=True
     )
 
-    predict_button = st.button("Predict Energy Class")
+    predict_button = st.button(
+        "Predict Energy Class"
+    )
 
-# RIGHT PANEL
+# Right panel
 with right:
 
     st.subheader("AI Prediction")
@@ -135,7 +223,7 @@ with right:
         st.markdown(f"""
         <div class="prediction-card">
             <div class="small-text">
-                Predicted Energy Consumption
+                Predicted Energy Consumption Class
             </div>
             <div class="big-result">
                 {label}
@@ -146,13 +234,12 @@ with right:
     else:
 
         st.info(
-            "Enter values in the sidebar and click Predict."
+            "Enter building data in the sidebar and click Predict."
         )
 
-
-# FOOTER
+# Footer
 st.divider()
 
 st.caption(
-    "Energy AI Platform • Machine Learning Assignment • Streamlit Dashboard"
+    "Energy Consumption Platform • Machine Learning Assignment • Streamlit Dashboard"
 )
