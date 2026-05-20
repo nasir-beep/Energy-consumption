@@ -147,7 +147,7 @@ holiday = st.sidebar.selectbox(
     ["No", "Yes"]
 )
 
-# Manual enoding
+# Manual encoding
 hvac_map = {
     "Off": 0,
     "On": 1
@@ -215,10 +215,12 @@ with right:
             input_df[feature_names]
         )
 
-        if encoder_exists:
-            label = target_encoder.inverse_transform(prediction)[0]
+        pred_value = prediction[0]
+
+        if pred_value == 1:
+            label = "⚡ HIGH Energy Consumption"
         else:
-            label = prediction[0]
+            label = "🌱 LOW Energy Consumption"
 
         st.markdown(f"""
         <div class="prediction-card">
