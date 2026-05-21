@@ -236,10 +236,9 @@ with right:
                 <div class="small-text">
                     Prediction Result
                 </div>
-
-                <div class="big-result">
-                    HIGH Energy Consumption
-                </div>
+                    <div class="big-result">
+                        HIGH Energy Consumption
+                    </div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -271,10 +270,9 @@ with right:
                 <div class="small-text">
                     Prediction Result
                 </div>
-
-                <div class="big-result">
-                    LOW Energy Consumption
-                </div>
+                    <div class="big-result">
+                        LOW Energy Consumption
+                    </div>
             </div>
             """, unsafe_allow_html=True)
 
