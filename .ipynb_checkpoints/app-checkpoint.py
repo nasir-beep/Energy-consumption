@@ -1,11 +1,18 @@
 import streamlit as st
 import pandas as pd
 import joblib
+from PIL import image
+
+# Load images
+logo = Image.open("images/logo.png")
+house = Image.open("images/house.png")
+high = Image.open("images/high.png")
+low = Image.open("images/low.png")
 
 # Page configuration
 st.set_page_config(
-    page_title="Energy AI",
-    page_icon="⚡",
+    page_title="Energy AI Platform",
+    page_icon=logo,
     layout="wide"
 )
 
@@ -13,13 +20,11 @@ st.set_page_config(
 model = joblib.load("energy_model.pkl")
 feature_names = joblib.load("feature_names.pkl")
 
-
 try:
     target_encoder = joblib.load("target_encoder.pkl")
     encoder_exists = True
 except:
     encoder_exists = False
-
 
 # Custom CSS
 st.markdown("""
@@ -74,18 +79,24 @@ h1 {
 """, unsafe_allow_html=True)
 
 # Hero section
-st.markdown("Energy Consumption Platform")
 
-st.markdown(
-    "<p class='hero-text'>"
-    "Predict energy consumption intelligently using machine learning and smart building indicators."
-    "</p>",
-    unsafe_allow_html=True
-)
+col1, col2 = st.columns([1,5])
+with col1:
+    st.image(logo, width=110)
+
+with col2:
+    st.title("Energy Consumption Platform")
+    st.markdown(
+        "<p class='hero-text'>"
+        "Predict energy consumption intelligently using machine learning and smart building indicators."
+        "</p>",
+        unsafe_allow_html=True
+    )
 
 st.divider()
 
 # Sidebar inputs
+st.sidebar.image(house, width=80)
 st.sidebar.header("Energy Inputs")
 
 temperature = st.sidebar.number_input(
@@ -192,9 +203,7 @@ left, right = st.columns([1,1])
 
 # Left panel
 with left:
-
     st.subheader("Building Information")
-
     st.dataframe(
         input_df,
         use_container_width=True
@@ -206,9 +215,7 @@ with left:
 
 # Right panel
 with right:
-
     st.subheader("AI Prediction")
-
     if predict_button:
 
         prediction = model.predict(
@@ -218,9 +225,11 @@ with right:
         pred_value = prediction[0]
 
         if pred_value == 1:
-            label = "⚡ HIGH Energy Consumption"
+            st.image(high, width=110)
+            label = "HIGH Energy Consumption"
         else:
-            label = "🌱 LOW Energy Consumption"
+            st.image(low, width=110)
+            label = "LOW Energy Consumption"
 
         st.markdown(f"""
         <div class="prediction-card">
