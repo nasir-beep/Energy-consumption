@@ -64,6 +64,10 @@ Then open:
 
 http://localhost:8501
 
+or visit:
+
+https://energy-consumptiongit-jusk7vhcykjsh3jszpejt6.streamlit.app/
+
 ## How to Use
 1. Open the Streamlit app
 2. Enter input values
