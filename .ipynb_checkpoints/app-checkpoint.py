@@ -215,7 +215,9 @@ with left:
 
 # Right panel
 with right:
+
     st.subheader("AI Prediction")
+
     if predict_button:
 
         prediction = model.predict(
@@ -224,23 +226,21 @@ with right:
 
         pred_value = prediction[0]
 
-        # High energy
+        # High energy prediction
         if pred_value == 1:
-            
-            st.markdown(
-                "<div class='prediction-card'>",
-                unsafe_allow_html=True)
-            
-            st.image(high_icon, width=120)
 
-            st.markdown(f"""
+            st.image(high, width=120)
+
+            st.markdown("""
+            <div class="prediction-card">
                 <div class="small-text">
                     Prediction Result
                 </div>
 
                 <div class="big-result">
-                    High Energy Consumption
+                    HIGH Energy Consumption
                 </div>
+            </div>
             """, unsafe_allow_html=True)
 
             st.warning("Recommended Actions")
@@ -249,45 +249,54 @@ with right:
                 st.write("• Reduce or optimize HVAC usage")
 
             if lighting == "High":
-                st.write("• Lower lighting intensity where possible")
+                st.write("• Lower lighting intensity")
 
             if occupancy > 10:
-                st.write("• Monitor occupancy-related energy demand")
+                st.write("• Monitor occupancy-related demand")
 
             if renewable < 20:
                 st.write("• Increase renewable energy contribution")
 
-            st.write("• Schedule heavy energy activities during off-peak hours")
+            st.write(
+                "• Schedule heavy energy activities during off-peak periods"
+            )
 
-            st.markdown("</div>", unsafe_allow_html=True)
-
+        # Low energy prediction
         else:
-            st.markdown(
-                '<div class="prediction-card">',
-                unsafe_allow_html=True)
-            
-            st.image(low, width=110)
-            
+
+            st.image(low, width=120)
+
             st.markdown("""
+            <div class="prediction-card">
                 <div class="small-text">
                     Prediction Result
                 </div>
-                <div class="big-results">
+
+                <div class="big-result">
                     LOW Energy Consumption
                 </div>
-        """, unsafe_allow_html=True)
+            </div>
+            """, unsafe_allow_html=True)
+
             st.success("Energy Efficient Status")
-            st.write("• Current settings are energy efficient")
-            st.write("• Maintain operating conditions")
-            st.write("• Continue sustainability practices")
-            st.markdown(
-                '</div>', unsafe_allow_html=True)
-    
-        else:
-    
-            st.info(
-                "Enter building information and click Predict."
+
+            st.write(
+                "• Current settings are energy efficient"
             )
+
+            st.write(
+                "• Maintain operating conditions"
+            )
+
+            st.write(
+                "• Continue sustainability practices"
+            )
+
+    else:
+
+        st.info(
+            "Enter building information and click Predict."
+        )
 
 # Footer
 st.divider()

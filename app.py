@@ -229,7 +229,7 @@ with right:
         # High energy prediction
         if pred_value == 1:
 
-            st.image(high_icon, width=120)
+            st.image(high, width=120)
 
             st.markdown("""
             <div class="prediction-card">
@@ -264,7 +264,7 @@ with right:
         # Low energy prediction
         else:
 
-            st.image(low_icon, width=120)
+            st.image(low, width=120)
 
             st.markdown("""
             <div class="prediction-card">
