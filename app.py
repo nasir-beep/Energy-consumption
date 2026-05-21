@@ -11,7 +11,7 @@ low = Image.open("images/low.png")
 
 # Page configuration
 st.set_page_config(
-    page_title="Energy AI Platform",
+    page_title="Energy Consumption Platform",
     page_icon=logo,
     layout="wide"
 )
