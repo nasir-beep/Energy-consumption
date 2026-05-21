@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
-from PIL import image
+from PIL import Image
 
 # Load images
 logo = Image.open("images/logo.png")
