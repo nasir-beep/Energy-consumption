@@ -88,7 +88,7 @@ with col2:
     st.title("Energy Consumption Platform")
     st.markdown(
         "<p class='hero-text'>"
-        "Predict energy consumption intelligently using machine learning and smart building indicators."
+        "Predict and manage energy consumption using machine learning and smart sustainability recommendations."
         "</p>",
         unsafe_allow_html=True
     )
@@ -131,17 +131,17 @@ renewable = st.sidebar.number_input(
 
 # Categorical inputs
 hvac = st.sidebar.selectbox(
-    "HVACUsage",
+    "HVAC Usage",
     ["Off", "On"]
 )
 
 lighting = st.sidebar.selectbox(
-    "LightingUsage",
+    "Lighting Usage",
     ["Low", "Medium", "High"]
 )
 
 day = st.sidebar.selectbox(
-    "DayOfWeek",
+    "Day Of Week",
     [
         "Monday",
         "Tuesday",
@@ -210,7 +210,7 @@ with left:
     )
 
     predict_button = st.button(
-        "Predict Energy Class"
+        "Predict Energy Consumption"
     )
 
 # Right panel
@@ -224,33 +224,74 @@ with right:
 
         pred_value = prediction[0]
 
+        # High energy
         if pred_value == 1:
-            st.image(high, width=110)
-            label = "HIGH Energy Consumption"
+            
+            st.markdown(
+                "<div class='prediction-card'>",
+                unsafe_allow_html=True)
+            
+            st.image(high_icon, width=120)
+
+            st.markdown(f"""
+                <div class="small-text">
+                    Prediction Result
+                </div>
+
+                <div class="big-result">
+                    High Energy Consumption
+                </div>
+            """, unsafe_allow_html=True)
+
+            st.warning("Recommended Actions")
+
+            if hvac == "On":
+                st.write("• Reduce or optimize HVAC usage")
+
+            if lighting == "High":
+                st.write("• Lower lighting intensity where possible")
+
+            if occupancy > 10:
+                st.write("• Monitor occupancy-related energy demand")
+
+            if renewable < 20:
+                st.write("• Increase renewable energy contribution")
+
+            st.write("• Schedule heavy energy activities during off-peak hours")
+
+            st.markdown("</div>", unsafe_allow_html=True)
+
         else:
+            st.markdown(
+                '<div class="prediction-card">',
+                unsafe_allow_html=True)
+            
             st.image(low, width=110)
-            label = "LOW Energy Consumption"
-
-        st.markdown(f"""
-        <div class="prediction-card">
-            <div class="small-text">
-                Predicted Energy Consumption Class
-            </div>
-            <div class="big-result">
-                {label}
-            </div>
-        </div>
+            
+            st.markdown("""
+                <div class="small-text">
+                    Prediction Result
+                </div>
+                <div class="big-results">
+                    LOW Energy Consumption
+                </div>
         """, unsafe_allow_html=True)
-
-    else:
-
-        st.info(
-            "Enter building data in the sidebar and click Predict."
-        )
+            st.success("Energy Efficient Status")
+            st.write("• Current settings are energy efficient")
+            st.write("• Maintain operating conditions")
+            st.write("• Continue sustainability practices")
+            st.markdown(
+                '</div>', unsafe_allow_html=True)
+    
+        else:
+    
+            st.info(
+                "Enter building information and click Predict."
+            )
 
 # Footer
 st.divider()
 
 st.caption(
-    "Energy Consumption Platform • Machine Learning Assignment • Streamlit Dashboard"
+    "Energy Consumption Platform • Machine Learning Assignment • Sustainability Decision Support System"
 )
